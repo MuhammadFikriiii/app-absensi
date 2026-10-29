@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\AttendanceSetting;
 use App\Models\CalendarEvent;
 use App\Models\WorkSchedule;
 use Carbon\Carbon;
@@ -36,6 +37,8 @@ class DashboardController extends Controller
 
         $nextEvent = CalendarEvent::whereDate('event_date', '>=', $today)->orderBy('event_date')->first();
 
-        return view('dashboard', compact('user', 'today', 'attendance', 'schedule', 'stats', 'nextEvent'));
+        $validationSettings = AttendanceSetting::current();
+
+        return view('dashboard', compact('user', 'today', 'attendance', 'schedule', 'stats', 'nextEvent', 'validationSettings'));
     }
 }

@@ -31,9 +31,18 @@
 
 <section class="mt-5 grid gap-3 sm:grid-cols-2">
     @if(!$attendance->clock_in_at)
-        <form method="POST" action="{{ route('attendance.clock-in') }}" class="sm:col-span-2">@csrf<button class="primary-button w-full text-lg">Absen Masuk</button></form>
+        <form method="POST" enctype="multipart/form-data" action="{{ route('attendance.clock-in') }}" class="attendance-form surface sm:col-span-2" data-require-location="{{ $validationSettings->gps_enabled ? '1' : '0' }}">
+            @csrf
+            <input type="hidden" name="latitude"><input type="hidden" name="longitude">
+            @if($validationSettings->selfie_enabled)<label class="mb-4 block"><span class="field-label">Selfie masuk</span><input class="field" type="file" name="selfie" accept="image/*" capture="user" required><span class="mt-2 block text-xs text-slate-500">Ambil foto wajah langsung dari kamera.</span></label>@endif
+            <button type="submit" class="primary-button w-full text-lg">Absen Masuk</button>
+        </form>
     @elseif(!$attendance->clock_out_at)
-        <form method="POST" action="{{ route('attendance.clock-out') }}">@csrf<button class="danger-button w-full">Absen Keluar</button></form>
+        <form method="POST" enctype="multipart/form-data" action="{{ route('attendance.clock-out') }}" class="attendance-form surface" data-require-location="{{ $validationSettings->gps_enabled ? '1' : '0' }}">
+            @csrf<input type="hidden" name="latitude"><input type="hidden" name="longitude">
+            @if($validationSettings->selfie_enabled)<label class="mb-4 block"><span class="field-label">Selfie keluar</span><input class="field" type="file" name="selfie" accept="image/*" capture="user" required></label>@endif
+            <button type="submit" class="danger-button w-full">Absen Keluar</button>
+        </form>
         @if(!$attendance->break_started_at)
             <form method="POST" action="{{ route('attendance.break.start') }}">@csrf<button class="secondary-button w-full">Mulai Istirahat</button></form>
         @elseif(!$attendance->break_ended_at)
@@ -45,6 +54,19 @@
         <div class="surface sm:col-span-2"><p class="font-bold text-emerald-700">Terima kasih, absensi hari ini sudah lengkap.</p><p class="mt-1 text-sm text-slate-500">Pulang pukul {{ $attendance->clock_out_at->format('H:i') }}</p></div>
     @endif
 </section>
+
+@if($validationSettings->gps_enabled || $validationSettings->network_enabled || $validationSettings->selfie_enabled)
+<div class="mt-4 flex flex-wrap gap-2 text-xs font-bold">
+    @if($validationSettings->gps_enabled)<span class="rounded-full bg-blue-50 px-3 py-2 text-blue-700">GPS aktif · radius {{ $validationSettings->office_radius_meters }} m</span>@endif
+    @if($validationSettings->network_enabled)<span class="rounded-full bg-violet-50 px-3 py-2 text-violet-700">Jaringan kampus wajib</span>@endif
+    @if($validationSettings->selfie_enabled)<span class="rounded-full bg-amber-50 px-3 py-2 text-amber-700">Selfie wajib</span>@endif
+</div>
+@endif
+
+<div class="mt-5 grid gap-3 sm:grid-cols-2">
+    <a class="surface flex items-center justify-between" href="{{ route('coworkers') }}"><span><strong class="block">Status rekan kerja</strong><small class="text-slate-500">Lihat siapa yang hadir atau izin</small></span><span class="text-emerald-600">→</span></a>
+    <a class="surface flex items-center justify-between" href="{{ route('leaves.index') }}"><span><strong class="block">Izin, sakit & cuti</strong><small class="text-slate-500">Buat dan pantau pengajuan</small></span><span class="text-emerald-600">→</span></a>
+</div>
 
 <section class="surface mt-6">
     <h2 class="section-title">Ringkasan bulan ini</h2>

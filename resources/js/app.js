@@ -1,5 +1,30 @@
 import './bootstrap';
 
+document.querySelector('#theme-toggle')?.addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+});
+
+document.querySelectorAll('.attendance-form').forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+        if (form.dataset.requireLocation !== '1' || form.dataset.locationReady === '1') return;
+        event.preventDefault();
+        const button = form.querySelector('button[type="submit"]');
+        const original = button.textContent;
+        button.disabled = true; button.textContent = 'Mengambil lokasi…';
+        if (!navigator.geolocation) { alert('Perangkat tidak mendukung GPS.'); button.disabled = false; button.textContent = original; return; }
+        navigator.geolocation.getCurrentPosition((position) => {
+            form.querySelector('[name="latitude"]').value = position.coords.latitude;
+            form.querySelector('[name="longitude"]').value = position.coords.longitude;
+            form.dataset.locationReady = '1';
+            form.requestSubmit();
+        }, () => {
+            alert('Lokasi tidak dapat diakses. Izinkan akses lokasi lalu coba kembali.');
+            button.disabled = false; button.textContent = original;
+        }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+    });
+});
+
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/service-worker.js'));
 
 let installPrompt;

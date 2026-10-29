@@ -47,11 +47,15 @@ Status: **Selesai untuk baseline lokal**
 
 ## Phase 2 — Validasi Kehadiran dan Kolaborasi
 
-- [ ] GPS/radius kantor.
-- [ ] Validasi jaringan kampus.
-- [ ] Selfie masuk dan keluar.
-- [ ] Status karyawan lain dan tombol WhatsApp.
-- [ ] Pengajuan izin/cuti/sakit.
+Status: **Selesai untuk baseline lokal**
+
+- [x] GPS/radius kantor yang dapat diaktifkan atau dinonaktifkan admin.
+- [x] Validasi jaringan kampus berdasarkan IP atau CIDR.
+- [x] Selfie masuk dan keluar melalui kamera perangkat.
+- [x] Status karyawan lain dan tombol WhatsApp.
+- [x] Pengajuan izin/cuti/sakit beserta persetujuan admin.
+- [x] Pengajuan yang disetujui tampil pada kalender.
+- [x] Tema terang dan gelap yang tersimpan pada perangkat.
 
 ## Phase 3 — Koreksi dan Rekap
 

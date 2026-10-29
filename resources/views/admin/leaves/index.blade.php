@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('title', 'Persetujuan Izin')
+@section('content')
+<header class="mb-7"><p class="text-sm font-bold uppercase tracking-[.18em] text-emerald-700">Pengaturan admin</p><h1 class="page-title">Persetujuan izin</h1><p class="page-subtitle">Tinjau izin, sakit, dan cuti karyawan.</p></header>
+<div class="space-y-4">@forelse($requests as $item)<article class="surface"><div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><h2 class="font-black">{{ $item->user->name }} · {{ ucfirst($item->type) }}</h2><p class="text-sm text-slate-500">{{ $item->start_date->translatedFormat('d M Y') }} – {{ $item->end_date->translatedFormat('d M Y') }}</p><p class="mt-3 text-sm">{{ $item->reason }}</p></div><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold">{{ ucfirst($item->status) }}</span></div>@if($item->status==='pending')<form class="mt-5 grid gap-3 sm:grid-cols-[1fr_auto_auto]" method="POST" action="{{ route('admin.leaves.update',$item) }}">@csrf @method('PUT')<input class="field" name="admin_note" placeholder="Catatan admin (opsional)"><button class="primary-button" name="status" value="approved">Setujui</button><button class="danger-button" name="status" value="rejected">Tolak</button></form>@endif</article>@empty<div class="empty-state">Belum ada pengajuan.</div>@endforelse</div>
+@endsection

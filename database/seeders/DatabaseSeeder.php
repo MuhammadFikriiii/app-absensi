@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\AttendanceSetting;
 use App\Models\CalendarEvent;
+use App\Models\User;
 use App\Models\WorkSchedule;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +24,17 @@ class DatabaseSeeder extends Seeder
             'name' => 'Budi Santoso', 'password' => 'password', 'role' => 'karyawan',
             'phone' => '085248867449', 'position' => 'Staf Akademik',
             'birth_date' => '1994-11-05', 'is_active' => true,
+        ]);
+
+        User::updateOrCreate(['email' => 'siti@absensi.test'], [
+            'name' => 'Siti Rahma', 'password' => 'password', 'role' => 'karyawan',
+            'phone' => '081234567890', 'position' => 'Staf Administrasi',
+            'birth_date' => '1996-12-12', 'is_active' => true,
+        ]);
+
+        AttendanceSetting::firstOrCreate([], [
+            'gps_enabled' => false, 'network_enabled' => false, 'selfie_enabled' => false,
+            'office_radius_meters' => 150, 'allowed_ips' => "127.0.0.1\n::1",
         ]);
 
         foreach (range(1, 7) as $day) {

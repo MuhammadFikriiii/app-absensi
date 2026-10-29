@@ -9,10 +9,11 @@
     <meta name="apple-mobile-web-app-title" content="Absensi Kampus">
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/icons/app-icon.svg" type="image/svg+xml">
+    <script>if(localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')</script>
     <title>@yield('title', 'Absensi Kampus')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-950 antialiased">
+<body class="min-h-screen bg-slate-50 text-slate-950 antialiased transition-colors">
     <div class="mx-auto min-h-screen max-w-7xl lg:grid lg:grid-cols-[240px_1fr]">
         <aside class="hidden border-r border-slate-200 bg-white px-5 py-7 lg:flex lg:flex-col">
             <a href="{{ route('dashboard') }}" class="mb-10 flex items-center gap-3">
@@ -22,13 +23,17 @@
             <nav class="space-y-2 text-sm font-semibold">
                 <a class="side-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">Beranda</a>
                 <a class="side-link {{ request()->routeIs('calendar') ? 'active' : '' }}" href="{{ route('calendar') }}">Kalender</a>
+                <a class="side-link {{ request()->routeIs('coworkers') ? 'active' : '' }}" href="{{ route('coworkers') }}">Rekan kerja</a>
                 <a class="side-link {{ request()->routeIs('history') ? 'active' : '' }}" href="{{ route('history') }}">Riwayat</a>
+                <a class="side-link {{ request()->routeIs('leaves.*') ? 'active' : '' }}" href="{{ route('leaves.index') }}">Izin & cuti</a>
                 <a class="side-link {{ request()->routeIs('profile') ? 'active' : '' }}" href="{{ route('profile') }}">Profil</a>
                 @if(auth()->user()->isAdmin())
                     <p class="px-4 pb-1 pt-6 text-xs font-bold uppercase tracking-wider text-slate-400">Admin</p>
                     <a class="side-link {{ request()->routeIs('admin.employees.*') ? 'active' : '' }}" href="{{ route('admin.employees.index') }}">Karyawan</a>
                     <a class="side-link {{ request()->routeIs('admin.attendances.*') ? 'active' : '' }}" href="{{ route('admin.attendances.index') }}">Absensi harian</a>
                     <a class="side-link {{ request()->routeIs('admin.schedules.*') ? 'active' : '' }}" href="{{ route('admin.schedules.edit') }}">Jadwal kerja</a>
+                    <a class="side-link {{ request()->routeIs('admin.attendance-settings.*') ? 'active' : '' }}" href="{{ route('admin.attendance-settings.edit') }}">Validasi absensi</a>
+                    <a class="side-link {{ request()->routeIs('admin.leaves.*') ? 'active' : '' }}" href="{{ route('admin.leaves.index') }}">Persetujuan izin</a>
                 @endif
             </nav>
             <form method="POST" action="{{ route('logout') }}" class="mt-auto">@csrf
@@ -44,6 +49,7 @@
                         <p class="text-sm text-slate-500">{{ auth()->user()->position ?: ucfirst(auth()->user()->role) }}</p>
                     </div>
                     <div class="flex items-center gap-3">
+                        <button id="theme-toggle" type="button" class="grid size-10 place-items-center rounded-full border border-slate-200 text-lg" aria-label="Ganti tema"><span class="dark:hidden">☾</span><span class="hidden dark:inline">☀</span></button>
                         <button id="install-app" class="hidden rounded-xl border border-emerald-200 px-3 py-2 text-xs font-bold text-emerald-700">Pasang aplikasi</button>
                         <a href="{{ route('profile') }}" class="grid size-10 place-items-center rounded-full bg-emerald-100 font-bold text-emerald-700">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</a>
                     </div>
@@ -63,11 +69,12 @@
     </div>
 
     <nav class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-2 pb-[max(.65rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur lg:hidden">
-        <div class="mx-auto grid max-w-lg grid-cols-4">
+        <div class="mx-auto grid max-w-lg grid-cols-5">
             @php
                 $nav = [
                     ['dashboard', 'Beranda', '⌂'],
                     ['calendar', 'Kalender', '□'],
+                    ['coworkers', 'Rekan', '◇'],
                     ['history', 'Riwayat', '◷'],
                     ['profile', 'Profil', '○'],
                 ];

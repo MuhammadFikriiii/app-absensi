@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -18,12 +19,12 @@
 }
 
 @layer components {
-    .surface { @apply rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6; }
+    .surface { @apply rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-slate-700 dark:bg-slate-900; }
     .page-title { @apply text-3xl font-black tracking-tight text-slate-950 sm:text-4xl; }
     .page-subtitle { @apply mt-1 text-sm text-slate-500 sm:text-base; }
     .section-title { @apply text-lg font-black text-slate-950; }
     .field-label { @apply mb-2 block text-sm font-bold text-slate-700; }
-    .field { @apply w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100; }
+    .field { @apply w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:focus:ring-emerald-950; }
     .primary-button { @apply inline-flex min-h-12 items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 font-black text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-200 disabled:cursor-not-allowed disabled:opacity-50; }
     .secondary-button { @apply inline-flex min-h-12 items-center justify-center rounded-2xl border-2 border-emerald-600 bg-white px-6 py-3 font-black text-emerald-700 transition hover:bg-emerald-50 focus:outline-none focus:ring-4 focus:ring-emerald-100; }
     .danger-button { @apply inline-flex min-h-12 items-center justify-center rounded-2xl bg-rose-600 px-6 py-3 font-black text-white transition hover:bg-rose-700 focus:outline-none focus:ring-4 focus:ring-rose-100; }
@@ -34,5 +35,18 @@
     .empty-state { @apply rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center; }
     .legend { @apply mr-1.5 inline-block size-2.5 rounded-full; }
 }
+
+.dark body { background: #020617; color: #e2e8f0; }
+.dark .bg-white, .dark .bg-white\/95 { background-color: #0f172a; }
+.dark .bg-slate-50, .dark .bg-slate-50\/70 { background-color: #1e293b; }
+.dark .text-slate-950, .dark .text-slate-900, .dark .page-title, .dark .section-title { color: #f8fafc !important; }
+.dark .text-slate-700, .dark .text-slate-600, .dark .text-slate-500, .dark .page-subtitle { color: #cbd5e1 !important; }
+.dark .side-link { color: #cbd5e1; }
+.dark .side-link.active { color: #047857; }
+.dark .bg-slate-100 { background-color: #334155; color: #e2e8f0; }
+.dark .border-slate-200, .dark .border-slate-200\/80, .dark .divide-slate-200 > :not(:last-child) { border-color: #334155; }
+.dark .bg-emerald-50, .dark .bg-emerald-50\/70 { background-color: #052e24; }
+.dark .bg-rose-50 { background-color: #3f121c; }
+.dark .bg-amber-50 { background-color: #3b2a08; }
 
 @media (display-mode: standalone) { #install-app { display: none !important; } }
