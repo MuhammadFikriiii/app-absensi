@@ -1,0 +1,75 @@
+# Rencana Aplikasi Absensi
+
+## Tujuan
+
+Aplikasi absensi internal untuk 30–40 karyawan dengan dua peran: `admin` dan `karyawan`. Aplikasi dibangun sebagai PWA responsif agar dapat dipasang langsung dari browser di Android dan iPhone tanpa Play Store atau App Store.
+
+## Teknologi
+
+- Laravel 12
+- Blade + Tailwind CSS
+- SQLite untuk pengembangan lokal
+- MySQL untuk produksi
+- PWA (Web App Manifest + Service Worker)
+- Zona waktu `Asia/Makassar`
+
+## Phase 1 — Fondasi dan Absensi Dasar
+
+Status: **Selesai untuk baseline lokal**
+
+### Karyawan
+
+- Login dan logout.
+- Dashboard responsif yang menampilkan jadwal dan status hari ini.
+- Absen masuk satu kali per hari.
+- Absen keluar hanya setelah absen masuk.
+- Tombol mulai/selesai istirahat terpisah dari absen masuk/keluar.
+- Kalender sederhana: libur merah, izin hijau, ulang tahun biru.
+- Riwayat absensi pada halaman khusus, tidak diduplikasi di beranda.
+- Profil dengan nomor WhatsApp, jabatan, dan tanggal lahir.
+- PWA yang dapat dipasang pada Android dan iPhone.
+
+### Admin minimum yang dibutuhkan Phase 1
+
+- Login dengan role admin.
+- Daftar dan pembuatan karyawan.
+- Pengaturan jadwal kerja mingguan.
+- Menyalin jadwal satu hari ke beberapa hari lain.
+- Daftar absensi harian.
+
+### Kriteria selesai
+
+- Alur login → absen masuk → istirahat → selesai istirahat → absen keluar bekerja.
+- Data tersimpan di SQLite.
+- Validasi mencegah aksi ganda atau urutan yang salah.
+- Tampilan nyaman pada ponsel dan desktop.
+- Test fitur inti lulus.
+
+## Phase 2 — Validasi Kehadiran dan Kolaborasi
+
+- GPS/radius kantor.
+- Validasi jaringan kampus.
+- Selfie masuk dan keluar.
+- Status karyawan lain dan tombol WhatsApp.
+- Pengajuan izin/cuti/sakit.
+
+## Phase 3 — Koreksi dan Rekap
+
+- Pengajuan perubahan absensi.
+- Persetujuan admin.
+- Audit log.
+- Rekap harian, mingguan, dan bulanan.
+
+## Phase 4 — Lembur dan Perhitungan Uang
+
+- Lembur otomatis berdasarkan ambang admin.
+- Uang transport per jabatan dan override per karyawan.
+- Potongan keterlambatan.
+- Periode pembayaran dan tombol sudah dibayar.
+- Migrasi produksi ke MySQL, backup, dan hardening.
+
+## Catatan Instalasi PWA
+
+- Android: buka aplikasi di Chrome lalu pilih **Install app** atau **Tambahkan ke layar utama**.
+- iPhone/iPad: buka aplikasi di Safari, pilih **Share**, lalu **Add to Home Screen**.
+- Produksi wajib menggunakan HTTPS agar pemasangan PWA, kamera, dan GPS dapat berfungsi.

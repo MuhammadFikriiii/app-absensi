@@ -1,0 +1,1 @@
+{"name":"Absensi Kampus","short_name":"Absensi","description":"Aplikasi absensi internal kampus","start_url":"/","display":"standalone","background_color":"#f8fafc","theme_color":"#159447","orientation":"portrait-primary","icons":[{"src":"/icons/app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
