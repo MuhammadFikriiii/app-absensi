@@ -85,3 +85,24 @@
 .camera-video, .camera-preview { @apply aspect-[4/3] max-h-[420px] w-full object-cover; transform: scaleX(-1); }
 .camera-preview { transform: none; }
 .dark .camera-shell { border-color: #3a4043; }
+
+.calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.calendar-day { @apply flex min-h-16 min-w-0 flex-col border-b border-r border-slate-200 p-1.5 sm:min-h-28 sm:p-3; }
+.calendar-day:nth-child(7n) { border-right: 0; }
+.calendar-day:nth-last-child(-n+7) { border-bottom: 0; }
+.calendar-day.outside { @apply bg-slate-50 text-slate-400 opacity-60; }
+.calendar-day.has-event { box-shadow: inset 0 3px 0 var(--event-color); }
+.calendar-day.event-holiday { --event-color: #f43f5e; background-color: rgb(244 63 94 / .07); }
+.calendar-day.event-leave { --event-color: #10b981; background-color: rgb(16 185 129 / .07); }
+.calendar-day.event-birthday { --event-color: #3b82f6; background-color: rgb(59 130 246 / .07); }
+.calendar-day.event-agenda { --event-color: #8b5cf6; background-color: rgb(139 92 246 / .07); }
+.calendar-number { @apply grid size-7 place-items-center rounded-full text-xs font-black sm:size-8 sm:text-sm; }
+.calendar-number.today { @apply bg-emerald-600 text-white; }
+.calendar-dot { @apply size-2 rounded-full; }
+.dot-holiday { @apply bg-rose-500; }
+.dot-leave { @apply bg-emerald-500; }
+.dot-birthday { @apply bg-blue-500; }
+.dot-agenda { @apply bg-violet-500; }
+.calendar-arrow { @apply grid size-11 shrink-0 place-items-center rounded-full border border-slate-200 text-xl font-black transition hover:border-emerald-500 hover:text-emerald-600; }
+.dark .calendar-day, .dark .calendar-grid { border-color: #3a4043; }
+.dark .calendar-day.outside { background: #202427; }

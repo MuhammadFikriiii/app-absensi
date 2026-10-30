@@ -25,6 +25,14 @@ class PhaseTwoTest extends TestCase
             ->assertOk()->assertSee('Ambil titik lokasi')->assertSee('tidak dikirim ke layanan peta luar');
     }
 
+    public function test_calendar_renders_month_grid_and_navigation(): void
+    {
+        $employee = User::factory()->create(['role' => 'karyawan', 'birth_date' => '1996-10-12']);
+        $this->actingAs($employee)->get(route('calendar', ['month' => '2026-10']))
+            ->assertOk()->assertSee('Oktober 2026')->assertSee('Bulan sebelumnya')
+            ->assertSee('Bulan berikutnya')->assertSee('Ulang tahun');
+    }
+
     protected function tearDown(): void
     {
         Carbon::setTestNow();

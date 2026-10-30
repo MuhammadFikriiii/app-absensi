@@ -9,7 +9,7 @@ Aplikasi absensi internal untuk 30–40 karyawan dengan dua peran: `admin` dan `
 - [x] Laravel 12
 - [x] Blade + Tailwind CSS
 - [x] SQLite untuk pengembangan lokal
-- [ ] MySQL untuk produksi
+- [x] Template konfigurasi MySQL produksi disiapkan (.env.mysql.example)
 - [x] PWA (Web App Manifest + Service Worker)
 - [x] Zona waktu `Asia/Makassar`
 
@@ -25,6 +25,7 @@ Status: **Selesai untuk baseline lokal**
 - [x] Absen keluar hanya setelah absen masuk.
 - [x] Tombol mulai/selesai istirahat terpisah dari absen masuk/keluar.
 - [x] Kalender sederhana: libur merah, izin hijau, ulang tahun biru.
+- [x] Kalender bulanan dapat digeser dan dinavigasi, dengan penanda warna pada tanggal yang memiliki agenda.
 - [x] Riwayat absensi pada halaman khusus, tidak diduplikasi di beranda.
 - [x] Profil dengan nomor WhatsApp, jabatan, dan tanggal lahir.
 - [x] PWA yang dapat dipasang pada Android dan iPhone.
@@ -51,7 +52,8 @@ Status: **Selesai untuk baseline lokal**
 
 - [x] GPS/radius kantor yang dapat diaktifkan atau dinonaktifkan admin.
 - [x] Validasi jaringan kampus berdasarkan IP atau CIDR.
-- [x] Selfie masuk dan keluar melalui kamera perangkat.
+- [x] Selfie masuk dan keluar dengan preview kamera langsung di dalam aplikasi.
+- [x] Pengambilan titik pusat GPS kantor langsung dari perangkat admin tanpa layanan peta eksternal.
 - [x] Status karyawan lain dan tombol WhatsApp.
 - [x] Pengajuan izin/cuti/sakit beserta persetujuan admin.
 - [x] Pengajuan yang disetujui tampil pada kalender.
@@ -70,11 +72,30 @@ Status: **Selesai untuk baseline lokal**
 
 ## Phase 4 — Lembur dan Perhitungan Uang
 
-- [ ] Lembur otomatis berdasarkan ambang admin.
-- [ ] Uang transport per jabatan dan override per karyawan.
-- [ ] Potongan keterlambatan.
-- [ ] Periode pembayaran dan tombol sudah dibayar.
-- [ ] Migrasi produksi ke MySQL, backup, dan hardening.
+Status: **Selesai untuk baseline lokal SQLite; MySQL produksi sudah disiapkan tetapi belum diaktifkan**
+
+- [x] Lembur otomatis berdasarkan ambang admin.
+- [x] Uang transport per jabatan dan override per karyawan.
+- [x] Potongan keterlambatan.
+- [x] Periode pembayaran dan tombol sudah dibayar.
+- [x] Rekap uang dan lembur yang dapat dilihat karyawan.
+- [x] Template migrasi konfigurasi produksi ke MySQL.
+- [ ] Eksekusi migrasi MySQL, backup terjadwal, HTTPS, dan hardening server produksi.
+
+## Pengujian lewat jaringan lokal
+
+- Jalankan migrasi dan dummy: php artisan migrate --seed.
+- Jalankan: powershell -ExecutionPolicy Bypass -File .\start-lan.ps1.
+- Buka alamat http://IP-KOMPUTER:8123 yang tampil di terminal dari HP pada WiFi/LAN yang sama.
+- SQLite tetap menjadi database aktif dan semua perangkat memakai data yang sama dari komputer.
+- Akses HTTP LAN cukup untuk mencoba antarmuka dan alur biasa. Instalasi PWA, GPS, dan kamera pada sebagian browser HP memerlukan HTTPS.
+- Test otomatis menggunakan SQLite :memory: terpisah agar tidak menghapus akun dummy/database lokal.
+
+### Akun dummy tetap
+
+- Admin: admin@absensi.test / password
+- Karyawan: budi@absensi.test / password
+- Karyawan: siti@absensi.test / password
 
 ## Catatan Instalasi PWA
 

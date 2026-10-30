@@ -132,3 +132,18 @@ document.querySelectorAll('[data-camera-capture]').forEach((camera) => {
     });
     window.addEventListener('pagehide', stopCamera);
 });
+
+document.querySelectorAll('[data-calendar-swipe]').forEach((calendar) => {
+    let startX = 0;
+    let startY = 0;
+    calendar.addEventListener('touchstart', (event) => {
+        startX = event.touches[0].clientX;
+        startY = event.touches[0].clientY;
+    }, { passive: true });
+    calendar.addEventListener('touchend', (event) => {
+        const deltaX = event.changedTouches[0].clientX - startX;
+        const deltaY = event.changedTouches[0].clientY - startY;
+        if (Math.abs(deltaX) < 70 || Math.abs(deltaX) < Math.abs(deltaY) * 1.5) return;
+        window.location.href = deltaX < 0 ? calendar.dataset.nextUrl : calendar.dataset.previousUrl;
+    }, { passive: true });
+});

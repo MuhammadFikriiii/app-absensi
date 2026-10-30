@@ -27,8 +27,17 @@ class CalendarController extends Controller
                 'description' => $user->position,
             ]);
 
-        $items = $events->concat($birthdays)->sortBy('event_date');
+        $items = $events->concat($birthdays)->sortBy('event_date')->values();
+        $itemsByDate = $items->groupBy(fn ($item) => $item->event_date->toDateString());
+        $gridStart = $month->copy()->startOfMonth()->startOfWeek(Carbon::MONDAY);
+        $gridEnd = $month->copy()->endOfMonth()->endOfWeek(Carbon::SUNDAY);
+        $days = collect();
+        for ($date = $gridStart->copy(); $date->lte($gridEnd); $date->addDay()) {
+            $days->push($date->copy());
+        }
+        $previousMonth = $month->copy()->subMonth()->format('Y-m');
+        $nextMonth = $month->copy()->addMonth()->format('Y-m');
 
-        return view('calendar', compact('month', 'items'));
+        return view('calendar', compact('month', 'items', 'itemsByDate', 'days', 'previousMonth', 'nextMonth'));
     }
 }
