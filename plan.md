@@ -59,10 +59,14 @@ Status: **Selesai untuk baseline lokal**
 
 ## Phase 3 — Koreksi dan Rekap
 
-- [ ] Pengajuan perubahan absensi.
-- [ ] Persetujuan admin.
-- [ ] Audit log.
-- [ ] Rekap harian, mingguan, dan bulanan.
+Status: **Selesai untuk baseline lokal**
+
+- [x] Pengajuan perubahan absensi dari riwayat karyawan.
+- [x] Persetujuan atau penolakan koreksi oleh admin.
+- [x] Perbandingan data lama dan usulan baru sebelum persetujuan.
+- [x] Audit log untuk absensi, koreksi, dan persetujuan izin.
+- [x] Rekap harian, mingguan, dan bulanan.
+- [x] Perhitungan jumlah hadir, terlambat, absensi belum lengkap, dan total jam kerja.
 
 ## Phase 4 — Lembur dan Perhitungan Uang
 

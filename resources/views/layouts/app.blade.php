@@ -25,6 +25,7 @@
                 <a class="side-link {{ request()->routeIs('calendar') ? 'active' : '' }}" href="{{ route('calendar') }}">Kalender</a>
                 <a class="side-link {{ request()->routeIs('coworkers') ? 'active' : '' }}" href="{{ route('coworkers') }}">Rekan kerja</a>
                 <a class="side-link {{ request()->routeIs('history') ? 'active' : '' }}" href="{{ route('history') }}">Riwayat</a>
+                <a class="side-link {{ request()->routeIs('corrections.*') ? 'active' : '' }}" href="{{ route('corrections.index') }}">Koreksi absensi</a>
                 <a class="side-link {{ request()->routeIs('leaves.*') ? 'active' : '' }}" href="{{ route('leaves.index') }}">Izin & cuti</a>
                 <a class="side-link {{ request()->routeIs('profile') ? 'active' : '' }}" href="{{ route('profile') }}">Profil</a>
                 @if(auth()->user()->isAdmin())
@@ -34,6 +35,9 @@
                     <a class="side-link {{ request()->routeIs('admin.schedules.*') ? 'active' : '' }}" href="{{ route('admin.schedules.edit') }}">Jadwal kerja</a>
                     <a class="side-link {{ request()->routeIs('admin.attendance-settings.*') ? 'active' : '' }}" href="{{ route('admin.attendance-settings.edit') }}">Validasi absensi</a>
                     <a class="side-link {{ request()->routeIs('admin.leaves.*') ? 'active' : '' }}" href="{{ route('admin.leaves.index') }}">Persetujuan izin</a>
+                    <a class="side-link {{ request()->routeIs('admin.corrections.*') ? 'active' : '' }}" href="{{ route('admin.corrections.index') }}">Persetujuan koreksi</a>
+                    <a class="side-link {{ request()->routeIs('admin.recaps.*') ? 'active' : '' }}" href="{{ route('admin.recaps.index') }}">Rekap absensi</a>
+                    <a class="side-link {{ request()->routeIs('admin.audit-logs.*') ? 'active' : '' }}" href="{{ route('admin.audit-logs.index') }}">Audit log</a>
                 @endif
             </nav>
             <form method="POST" action="{{ route('logout') }}" class="mt-auto">@csrf

@@ -1,0 +1,8 @@
+@extends('layouts.app')
+@section('title', 'Audit Log')
+@section('content')
+<header class="mb-7"><p class="text-sm font-bold uppercase tracking-[.18em] text-emerald-700">Phase 3</p><h1 class="page-title">Audit log</h1><p class="page-subtitle">Jejak tindakan penting yang tidak dapat diedit dari dashboard.</p></header>
+<form class="mb-5 flex flex-col gap-3 sm:flex-row" method="GET"><select class="field sm:max-w-72" name="action"><option value="">Semua tindakan</option>@foreach($actions as $action)<option value="{{ $action }}" @selected(request('action')===$action)>{{ str_replace('_',' ',$action) }}</option>@endforeach</select><button class="secondary-button">Filter</button></form>
+<div class="space-y-3">@forelse($logs as $log)<article class="surface flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold">{{ str_replace('_',' ',$log->action) }}</span><h2 class="mt-3 font-black">{{ $log->description }}</h2><p class="mt-1 text-sm text-slate-500">{{ $log->user?->name??'Sistem' }} · IP {{ $log->ip_address??'—' }}</p>@if($log->old_values||$log->new_values)<details class="mt-3 text-xs"><summary class="cursor-pointer font-bold text-emerald-700">Lihat perubahan</summary><pre class="mt-2 overflow-x-auto rounded-xl bg-slate-50 p-3">Lama: {{ json_encode($log->old_values,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) }}
+Baru: {{ json_encode($log->new_values,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) }}</pre></details>@endif</div><time class="text-xs text-slate-400">{{ $log->created_at->translatedFormat('d M Y H:i') }}</time></article>@empty<div class="empty-state">Belum ada aktivitas tercatat.</div>@endforelse</div><div class="mt-6">{{ $logs->links() }}</div>
+@endsection

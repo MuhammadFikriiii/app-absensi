@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\AttendanceSetting;
+use App\Models\AuditLog;
 use App\Models\WorkSchedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -48,6 +49,7 @@ class AttendanceController extends Controller
                 'late_minutes' => $lateMinutes,
                 ...$evidence,
             ])->save();
+            AuditLog::record('attendance_clock_in', $attendance, 'Karyawan melakukan absen masuk.', null, ['clock_in_at' => $attendance->clock_in_at?->toDateTimeString()]);
         });
 
         return back()->with('success', 'Absen masuk berhasil dicatat.');
@@ -67,6 +69,7 @@ class AttendanceController extends Controller
         }
 
         $attendance->update(['clock_out_at' => now(), ...$this->validateEvidence($request, 'clock_out')]);
+        AuditLog::record('attendance_clock_out', $attendance, 'Karyawan melakukan absen keluar.', null, ['clock_out_at' => $attendance->clock_out_at?->toDateTimeString()]);
 
         return back()->with('success', 'Absen keluar berhasil dicatat.');
     }
@@ -82,6 +85,7 @@ class AttendanceController extends Controller
         }
 
         $attendance->update(['break_started_at' => now()]);
+        AuditLog::record('attendance_break_start', $attendance, 'Karyawan memulai istirahat.');
 
         return back()->with('success', 'Waktu istirahat dimulai.');
     }
@@ -94,6 +98,7 @@ class AttendanceController extends Controller
         }
 
         $attendance->update(['break_ended_at' => now()]);
+        AuditLog::record('attendance_break_end', $attendance, 'Karyawan menyelesaikan istirahat.');
 
         return back()->with('success', 'Istirahat selesai. Selamat melanjutkan pekerjaan.');
     }

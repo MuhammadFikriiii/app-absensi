@@ -29,6 +29,11 @@ class Attendance extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function corrections()
+    {
+        return $this->hasMany(AttendanceCorrection::class);
+    }
+
     public function getStateAttribute(): string
     {
         if ($this->clock_out_at) {

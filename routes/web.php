@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\Admin\AttendanceCorrectionController as AdminAttendanceCorrectionController;
 use App\Http\Controllers\Admin\AttendanceSettingController;
+use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\LeaveRequestController as AdminLeaveRequestController;
+use App\Http\Controllers\Admin\RecapController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AttendanceCorrectionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CoworkerController;
@@ -35,6 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/leaves', [LeaveRequestController::class, 'index'])->name('leaves.index');
     Route::get('/leaves/create', [LeaveRequestController::class, 'create'])->name('leaves.create');
     Route::post('/leaves', [LeaveRequestController::class, 'store'])->name('leaves.store');
+    Route::get('/corrections', [AttendanceCorrectionController::class, 'index'])->name('corrections.index');
+    Route::get('/attendances/{attendance}/correction', [AttendanceCorrectionController::class, 'create'])->name('corrections.create');
+    Route::post('/attendances/{attendance}/correction', [AttendanceCorrectionController::class, 'store'])->name('corrections.store');
 
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
@@ -47,5 +54,9 @@ Route::middleware('auth')->group(function () {
         Route::put('/attendance-settings', [AttendanceSettingController::class, 'update'])->name('attendance-settings.update');
         Route::get('/leaves', [AdminLeaveRequestController::class, 'index'])->name('leaves.index');
         Route::put('/leaves/{leaveRequest}', [AdminLeaveRequestController::class, 'update'])->name('leaves.update');
+        Route::get('/corrections', [AdminAttendanceCorrectionController::class, 'index'])->name('corrections.index');
+        Route::put('/corrections/{attendanceCorrection}', [AdminAttendanceCorrectionController::class, 'update'])->name('corrections.update');
+        Route::get('/recaps', RecapController::class)->name('recaps.index');
+        Route::get('/audit-logs', AuditLogController::class)->name('audit-logs.index');
     });
 });
