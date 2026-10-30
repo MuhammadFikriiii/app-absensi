@@ -41,7 +41,6 @@
                     </div>
                     <div class="flex items-center gap-3">
                         <button id="theme-toggle" type="button" class="icon-button" aria-label="Ganti tema"><x-icon name="moon" class="dark:hidden" /><x-icon name="sun" class="hidden dark:block" /></button>
-                        <button id="install-app" class="hidden rounded-xl border border-emerald-200 px-3 py-2 text-xs font-bold text-emerald-700">Pasang aplikasi</button>
                         <a href="{{ route('profile') }}" class="profile-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</a>
                     </div>
                 </div>

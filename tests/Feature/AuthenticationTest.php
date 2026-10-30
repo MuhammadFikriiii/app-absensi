@@ -12,7 +12,13 @@ class AuthenticationTest extends TestCase
 
     public function test_guest_can_open_login_page(): void
     {
-        $this->get('/login')->assertOk()->assertSee('Masuk untuk memulai aktivitas');
+        $this->get('/login')->assertOk()->assertSee('Masuk untuk memulai aktivitas')->assertSee('Pasang aplikasi di HP');
+    }
+
+    public function test_install_button_is_not_rendered_after_login(): void
+    {
+        $employee = User::factory()->create(['role' => 'karyawan']);
+        $this->actingAs($employee)->get(route('dashboard'))->assertOk()->assertDontSee('Pasang aplikasi di HP');
     }
 
     public function test_active_employee_can_login(): void

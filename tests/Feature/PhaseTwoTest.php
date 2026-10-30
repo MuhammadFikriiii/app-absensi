@@ -20,7 +20,8 @@ class PhaseTwoTest extends TestCase
         AttendanceSetting::create(['selfie_enabled' => true, 'office_radius_meters' => 150]);
 
         $this->actingAs($employee)->get(route('dashboard'))
-            ->assertOk()->assertSee('Foto wajah langsung di aplikasi')->assertSee('Buka kamera');
+            ->assertOk()->assertSee('Verifikasi kehadiran')->assertSee('Potret sekarang')
+            ->assertSee('Gunakan foto & lanjut absen');
         $this->actingAs($admin)->get(route('admin.attendance-settings.edit'))
             ->assertOk()->assertSee('Ambil titik lokasi')->assertSee('tidak dikirim ke layanan peta luar');
     }
@@ -30,7 +31,15 @@ class PhaseTwoTest extends TestCase
         $employee = User::factory()->create(['role' => 'karyawan', 'birth_date' => '1996-10-12']);
         $this->actingAs($employee)->get(route('calendar', ['month' => '2026-10']))
             ->assertOk()->assertSee('Oktober 2026')->assertSee('Bulan sebelumnya')
-            ->assertSee('Bulan berikutnya')->assertSee('Ulang tahun');
+            ->assertSee('Bulan berikutnya')->assertSee('Ulang tahun')->assertSee('Agenda pada tanggal');
+    }
+
+    public function test_calendar_can_return_month_data_without_page_reload(): void
+    {
+        $employee = User::factory()->create(['role' => 'karyawan']);
+        $this->actingAs($employee)->getJson(route('calendar', ['month' => '2026-11']))
+            ->assertOk()->assertJsonPath('month', '2026-11')->assertJsonCount(42, 'days')
+            ->assertJsonStructure(['monthLabel', 'previousUrl', 'nextUrl', 'days', 'items']);
     }
 
     protected function tearDown(): void

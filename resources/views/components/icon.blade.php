@@ -21,5 +21,8 @@
 @case('wallet')<path d="M4 5h14a2 2 0 0 1 2 2v12H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="M16 11h6v5h-6a2.5 2.5 0 0 1 0-5Z"/>@break
 @case('money')<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M7 9H5v2M17 15h2v-2"/>@break
 @case('camera')<path d="M14.5 5 13 3h-2L9.5 5H5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="4"/>@break
+@case('download')<path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/>@break
+@case('upload')<path d="M12 21V9M7 14l5-5 5 5"/><path d="M5 3h14"/>@break
+@case('image')<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>@break
 @default<circle cx="12" cy="12" r="9"/>@endswitch
 </svg>

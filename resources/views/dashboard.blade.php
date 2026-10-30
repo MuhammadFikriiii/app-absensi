@@ -46,13 +46,13 @@
                 <form method="POST" enctype="multipart/form-data" action="{{ route('attendance.clock-in') }}" class="attendance-form" data-require-location="{{ $validationSettings->gps_enabled ? '1' : '0' }}">
                     @csrf
                     <input type="hidden" name="latitude"><input type="hidden" name="longitude">
-                    @if($validationSettings->selfie_enabled)<div class="mb-4"><x-camera-capture label="Selfie masuk" /></div>@endif
+                    @if($validationSettings->selfie_enabled)<x-camera-capture label="Selfie masuk" />@endif
                     <button type="submit" class="primary-button w-full"><x-icon name="login" class="size-5" />Absen Masuk</button>
                 </form>
             @elseif(!$attendance->clock_out_at)
                 <form method="POST" enctype="multipart/form-data" action="{{ route('attendance.clock-out') }}" class="attendance-form" data-require-location="{{ $validationSettings->gps_enabled ? '1' : '0' }}">
                     @csrf<input type="hidden" name="latitude"><input type="hidden" name="longitude">
-                    @if($validationSettings->selfie_enabled)<div class="mb-4"><x-camera-capture label="Selfie keluar" /></div>@endif
+                    @if($validationSettings->selfie_enabled)<x-camera-capture label="Selfie keluar" />@endif
                     <button type="submit" class="danger-button w-full">Absen Keluar</button>
                 </form>
                 @if(!$attendance->break_started_at)

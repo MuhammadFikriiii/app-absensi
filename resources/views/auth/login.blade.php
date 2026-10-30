@@ -21,6 +21,13 @@
             <label class="flex items-center gap-3 text-sm text-slate-600"><input class="size-4 accent-emerald-600" type="checkbox" name="remember" value="1"> Ingat saya</label>
             <button class="primary-button w-full" type="submit">Masuk</button>
         </form>
+        <div class="my-6 flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-slate-400"><span class="h-px flex-1 bg-slate-200"></span>atau<span class="h-px flex-1 bg-slate-200"></span></div>
+        <button id="install-app" class="secondary-button w-full" type="button"><x-icon name="download" class="size-5" />Pasang aplikasi di HP</button>
+        <div id="install-help" class="mt-3 hidden rounded-2xl bg-emerald-50 p-4 text-sm text-slate-700">
+            <strong class="block text-emerald-700">Cara memasang aplikasi</strong>
+            <p id="install-help-ios" class="mt-1 hidden">Di Safari, tekan tombol <b>Bagikan</b>, lalu pilih <b>Tambahkan ke Layar Utama</b>.</p>
+            <p id="install-help-generic" class="mt-1 hidden">Buka menu browser, lalu pilih <b>Instal aplikasi</b> atau <b>Tambahkan ke layar utama</b>.</p>
+        </div>
         <p class="mt-6 text-center text-xs text-slate-400">Aplikasi internal — data kehadiran tersimpan aman.</p>
     </main>
 </body>

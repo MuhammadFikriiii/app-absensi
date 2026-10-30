@@ -80,14 +80,18 @@
 @media (display-mode: standalone) { #install-app { display: none !important; } }
 
 .camera-shell { @apply relative grid min-h-56 place-items-center overflow-hidden rounded-2xl border border-slate-200 bg-slate-950; }
-.camera-placeholder { @apply flex max-w-xs flex-col items-center gap-2 p-6 text-center text-white; }
-.camera-placeholder small { @apply text-slate-400; }
 .camera-video, .camera-preview { @apply aspect-[4/3] max-h-[420px] w-full object-cover; transform: scaleX(-1); }
 .camera-preview { transform: none; }
 .dark .camera-shell { border-color: #3a4043; }
+.camera-dialog { @apply m-auto w-[calc(100%-2rem)] max-w-lg rounded-[22px] border border-slate-200 bg-white p-5 text-slate-950 shadow-2xl sm:p-6; }
+.camera-dialog::backdrop { background: rgb(0 0 0 / .78); backdrop-filter: blur(4px); }
+.camera-dialog-close { @apply grid size-10 shrink-0 place-items-center rounded-full border border-slate-200 text-2xl leading-none; }
+.dark .camera-dialog { background: #24282b; border-color: #3a4043; color: #f7f8f8; }
 
 .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
-.calendar-day { @apply flex min-h-16 min-w-0 flex-col border-b border-r border-slate-200 p-1.5 sm:min-h-28 sm:p-3; }
+.calendar-day { @apply flex min-h-16 min-w-0 flex-col border-b border-r border-slate-200 p-1.5 text-inherit sm:min-h-28 sm:p-3; appearance: none; }
+.calendar-day.has-event { cursor: pointer; }
+.calendar-day.has-event:hover { filter: brightness(.96); }
 .calendar-day:nth-child(7n) { border-right: 0; }
 .calendar-day:nth-last-child(-n+7) { border-bottom: 0; }
 .calendar-day.outside { @apply bg-slate-50 text-slate-400 opacity-60; }
@@ -106,3 +110,15 @@
 .calendar-arrow { @apply grid size-11 shrink-0 place-items-center rounded-full border border-slate-200 text-xl font-black transition hover:border-emerald-500 hover:text-emerald-600; }
 .dark .calendar-day, .dark .calendar-grid { border-color: #3a4043; }
 .dark .calendar-day.outside { background: #202427; }
+.calendar-dialog { @apply m-auto w-[calc(100%-2rem)] max-w-lg rounded-[22px] border border-slate-200 bg-white p-5 text-slate-950 shadow-2xl sm:p-6; }
+.calendar-dialog::backdrop { background: rgb(0 0 0 / .68); backdrop-filter: blur(3px); }
+.calendar-dialog-x { @apply grid size-10 shrink-0 place-items-center rounded-full border border-slate-200 text-2xl leading-none; }
+.dark .calendar-dialog { background: #24282b; border-color: #3a4043; color: #f7f8f8; }
+.calendar-loading { opacity: .55; pointer-events: none; transition: opacity .15s ease; }
+.calendar-slide-left { animation: calendar-slide-left .28s ease both; }
+.calendar-slide-right { animation: calendar-slide-right .28s ease both; }
+@keyframes calendar-slide-left { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes calendar-slide-right { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) {
+    .calendar-slide-left, .calendar-slide-right { animation: none; }
+}
