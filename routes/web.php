@@ -4,9 +4,11 @@ use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController
 use App\Http\Controllers\Admin\AttendanceCorrectionController as AdminAttendanceCorrectionController;
 use App\Http\Controllers\Admin\AttendanceSettingController;
 use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\Admin\CompensationController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\LeaveRequestController as AdminLeaveRequestController;
 use App\Http\Controllers\Admin\RecapController;
+use App\Http\Controllers\Admin\PayrollController as AdminPayrollController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceCorrectionController;
@@ -17,6 +19,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PayrollController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -40,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/leaves/create', [LeaveRequestController::class, 'create'])->name('leaves.create');
     Route::post('/leaves', [LeaveRequestController::class, 'store'])->name('leaves.store');
     Route::get('/corrections', [AttendanceCorrectionController::class, 'index'])->name('corrections.index');
+    Route::get('/payrolls', PayrollController::class)->name('payrolls.index');
     Route::get('/attendances/{attendance}/correction', [AttendanceCorrectionController::class, 'create'])->name('corrections.create');
     Route::post('/attendances/{attendance}/correction', [AttendanceCorrectionController::class, 'store'])->name('corrections.store');
 
@@ -47,6 +51,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
         Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
         Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
+        Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+        Route::put('/employees/{employee}', [EmployeeController::class, 'update'])->name('employees.update');
         Route::get('/attendances', AdminAttendanceController::class)->name('attendances.index');
         Route::get('/schedules', [ScheduleController::class, 'edit'])->name('schedules.edit');
         Route::put('/schedules', [ScheduleController::class, 'update'])->name('schedules.update');
@@ -57,6 +63,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/corrections', [AdminAttendanceCorrectionController::class, 'index'])->name('corrections.index');
         Route::put('/corrections/{attendanceCorrection}', [AdminAttendanceCorrectionController::class, 'update'])->name('corrections.update');
         Route::get('/recaps', RecapController::class)->name('recaps.index');
+        Route::get('/compensations', [CompensationController::class, 'edit'])->name('compensations.edit');
+        Route::put('/compensations', [CompensationController::class, 'update'])->name('compensations.update');
+        Route::get('/payrolls', [AdminPayrollController::class, 'index'])->name('payrolls.index');
+        Route::post('/payrolls/{user}/pay', [AdminPayrollController::class, 'pay'])->name('payrolls.pay');
         Route::get('/audit-logs', AuditLogController::class)->name('audit-logs.index');
     });
 });

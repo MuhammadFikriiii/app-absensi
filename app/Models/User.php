@@ -27,6 +27,10 @@ class User extends Authenticatable
         'birth_date',
         'is_active',
         'password',
+        'daily_transport_override',
+        'overtime_hourly_rate_override',
+        'late_deduction_per_minute_override',
+        'overtime_minimum_minutes_override',
     ];
 
     /**
@@ -72,6 +76,11 @@ class User extends Authenticatable
     public function attendanceCorrections()
     {
         return $this->hasMany(AttendanceCorrection::class);
+    }
+
+    public function payrollPeriods()
+    {
+        return $this->hasMany(PayrollPeriod::class);
     }
 
     public function isAdmin(): bool

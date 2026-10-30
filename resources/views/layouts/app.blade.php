@@ -15,8 +15,8 @@
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-950 antialiased transition-colors">
     @php
-        $mainNav = [['dashboard','Beranda','home'],['calendar','Kalender','calendar'],['coworkers','Rekan','users'],['history','Riwayat','history'],['corrections.index','Koreksi','edit'],['leaves.index','Izin & Cuti','briefcase'],['profile','Profil','user']];
-        $adminNav = [['admin.employees.index','Karyawan','users'],['admin.attendances.index','Absensi harian','check'],['admin.schedules.edit','Jadwal kerja','calendar'],['admin.attendance-settings.edit','Validasi absensi','settings'],['admin.leaves.index','Persetujuan izin','briefcase'],['admin.corrections.index','Persetujuan koreksi','edit'],['admin.recaps.index','Rekap absensi','chart'],['admin.audit-logs.index','Audit log','audit']];
+        $mainNav = [['dashboard','Beranda','home'],['calendar','Kalender','calendar'],['coworkers','Rekan','users'],['history','Riwayat','history'],['corrections.index','Koreksi','edit'],['leaves.index','Izin & Cuti','briefcase'],['payrolls.index','Uang & lembur','wallet'],['profile','Profil','user']];
+        $adminNav = [['admin.employees.index','Karyawan','users'],['admin.attendances.index','Absensi harian','check'],['admin.schedules.edit','Jadwal kerja','calendar'],['admin.attendance-settings.edit','Validasi absensi','settings'],['admin.leaves.index','Persetujuan izin','briefcase'],['admin.corrections.index','Persetujuan koreksi','edit'],['admin.recaps.index','Rekap absensi','chart'],['admin.compensations.edit','Aturan uang','wallet'],['admin.payrolls.index','Pembayaran','money'],['admin.audit-logs.index','Audit log','audit']];
     @endphp
     <div class="mx-auto min-h-screen max-w-[1480px] lg:grid lg:grid-cols-[250px_1fr]">
         <aside class="app-sidebar hidden lg:flex lg:h-screen lg:flex-col lg:overflow-y-auto">

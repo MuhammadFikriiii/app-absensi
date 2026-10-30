@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Attendance;
 use App\Models\AttendanceSetting;
 use App\Models\CalendarEvent;
+use App\Models\CompensationRule;
 use App\Models\User;
 use App\Models\WorkSchedule;
 use Illuminate\Database\Seeder;
@@ -31,6 +32,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'Siti Rahma', 'password' => 'password', 'role' => 'karyawan',
             'phone' => '081234567890', 'position' => 'Staf Administrasi',
             'birth_date' => '1996-12-12', 'is_active' => true,
+        ]);
+
+        CompensationRule::updateOrCreate(['position' => 'Staf Akademik'], [
+            'daily_transport' => 50000, 'overtime_hourly_rate' => 25000,
+            'late_deduction_per_minute' => 1000, 'overtime_minimum_minutes' => 180,
+        ]);
+        CompensationRule::updateOrCreate(['position' => 'Staf Administrasi'], [
+            'daily_transport' => 45000, 'overtime_hourly_rate' => 25000,
+            'late_deduction_per_minute' => 1000, 'overtime_minimum_minutes' => 180,
         ]);
 
         AttendanceSetting::firstOrCreate([], [
