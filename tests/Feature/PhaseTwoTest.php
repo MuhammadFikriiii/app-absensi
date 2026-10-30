@@ -13,6 +13,18 @@ class PhaseTwoTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_selfie_camera_and_private_gps_picker_are_rendered_when_configured(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $employee = User::factory()->create(['role' => 'karyawan']);
+        AttendanceSetting::create(['selfie_enabled' => true, 'office_radius_meters' => 150]);
+
+        $this->actingAs($employee)->get(route('dashboard'))
+            ->assertOk()->assertSee('Foto wajah langsung di aplikasi')->assertSee('Buka kamera');
+        $this->actingAs($admin)->get(route('admin.attendance-settings.edit'))
+            ->assertOk()->assertSee('Ambil titik lokasi')->assertSee('tidak dikirim ke layanan peta luar');
+    }
+
     protected function tearDown(): void
     {
         Carbon::setTestNow();

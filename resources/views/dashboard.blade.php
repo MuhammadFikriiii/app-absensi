@@ -46,13 +46,13 @@
                 <form method="POST" enctype="multipart/form-data" action="{{ route('attendance.clock-in') }}" class="attendance-form" data-require-location="{{ $validationSettings->gps_enabled ? '1' : '0' }}">
                     @csrf
                     <input type="hidden" name="latitude"><input type="hidden" name="longitude">
-                    @if($validationSettings->selfie_enabled)<label class="mb-3 block"><span class="field-label">Selfie masuk</span><input class="field" type="file" name="selfie" accept="image/*" capture="user" required></label>@endif
+                    @if($validationSettings->selfie_enabled)<div class="mb-4"><x-camera-capture label="Selfie masuk" /></div>@endif
                     <button type="submit" class="primary-button w-full"><x-icon name="login" class="size-5" />Absen Masuk</button>
                 </form>
             @elseif(!$attendance->clock_out_at)
                 <form method="POST" enctype="multipart/form-data" action="{{ route('attendance.clock-out') }}" class="attendance-form" data-require-location="{{ $validationSettings->gps_enabled ? '1' : '0' }}">
                     @csrf<input type="hidden" name="latitude"><input type="hidden" name="longitude">
-                    @if($validationSettings->selfie_enabled)<label class="mb-3 block"><span class="field-label">Selfie keluar</span><input class="field" type="file" name="selfie" accept="image/*" capture="user" required></label>@endif
+                    @if($validationSettings->selfie_enabled)<div class="mb-4"><x-camera-capture label="Selfie keluar" /></div>@endif
                     <button type="submit" class="danger-button w-full">Absen Keluar</button>
                 </form>
                 @if(!$attendance->break_started_at)

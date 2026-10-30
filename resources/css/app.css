@@ -78,3 +78,10 @@
 .dark .bg-amber-50 { background-color: #3d3017; }
 
 @media (display-mode: standalone) { #install-app { display: none !important; } }
+
+.camera-shell { @apply relative grid min-h-56 place-items-center overflow-hidden rounded-2xl border border-slate-200 bg-slate-950; }
+.camera-placeholder { @apply flex max-w-xs flex-col items-center gap-2 p-6 text-center text-white; }
+.camera-placeholder small { @apply text-slate-400; }
+.camera-video, .camera-preview { @apply aspect-[4/3] max-h-[420px] w-full object-cover; transform: scaleX(-1); }
+.camera-preview { transform: none; }
+.dark .camera-shell { border-color: #3a4043; }
