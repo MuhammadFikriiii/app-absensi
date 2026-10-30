@@ -3,64 +3,51 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#159447">
+    <meta name="theme-color" content="#111315">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Absensi Kampus">
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/icons/app-icon.svg" type="image/svg+xml">
-    <script>if(localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')</script>
+    <script>if(localStorage.getItem('theme')!=='light')document.documentElement.classList.add('dark')</script>
     <title>@yield('title', 'Absensi Kampus')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-950 antialiased transition-colors">
-    <div class="mx-auto min-h-screen max-w-7xl lg:grid lg:grid-cols-[240px_1fr]">
-        <aside class="hidden border-r border-slate-200 bg-white px-5 py-7 lg:flex lg:flex-col">
-            <a href="{{ route('dashboard') }}" class="mb-10 flex items-center gap-3">
-                <span class="grid size-11 place-items-center rounded-2xl bg-emerald-600 text-xl font-black text-white">A</span>
-                <span><strong class="block text-lg">Absensi</strong><small class="text-slate-500">Kampus</small></span>
-            </a>
-            <nav class="space-y-2 text-sm font-semibold">
-                <a class="side-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">Beranda</a>
-                <a class="side-link {{ request()->routeIs('calendar') ? 'active' : '' }}" href="{{ route('calendar') }}">Kalender</a>
-                <a class="side-link {{ request()->routeIs('coworkers') ? 'active' : '' }}" href="{{ route('coworkers') }}">Rekan kerja</a>
-                <a class="side-link {{ request()->routeIs('history') ? 'active' : '' }}" href="{{ route('history') }}">Riwayat</a>
-                <a class="side-link {{ request()->routeIs('corrections.*') ? 'active' : '' }}" href="{{ route('corrections.index') }}">Koreksi absensi</a>
-                <a class="side-link {{ request()->routeIs('leaves.*') ? 'active' : '' }}" href="{{ route('leaves.index') }}">Izin & cuti</a>
-                <a class="side-link {{ request()->routeIs('profile') ? 'active' : '' }}" href="{{ route('profile') }}">Profil</a>
-                @if(auth()->user()->isAdmin())
-                    <p class="px-4 pb-1 pt-6 text-xs font-bold uppercase tracking-wider text-slate-400">Admin</p>
-                    <a class="side-link {{ request()->routeIs('admin.employees.*') ? 'active' : '' }}" href="{{ route('admin.employees.index') }}">Karyawan</a>
-                    <a class="side-link {{ request()->routeIs('admin.attendances.*') ? 'active' : '' }}" href="{{ route('admin.attendances.index') }}">Absensi harian</a>
-                    <a class="side-link {{ request()->routeIs('admin.schedules.*') ? 'active' : '' }}" href="{{ route('admin.schedules.edit') }}">Jadwal kerja</a>
-                    <a class="side-link {{ request()->routeIs('admin.attendance-settings.*') ? 'active' : '' }}" href="{{ route('admin.attendance-settings.edit') }}">Validasi absensi</a>
-                    <a class="side-link {{ request()->routeIs('admin.leaves.*') ? 'active' : '' }}" href="{{ route('admin.leaves.index') }}">Persetujuan izin</a>
-                    <a class="side-link {{ request()->routeIs('admin.corrections.*') ? 'active' : '' }}" href="{{ route('admin.corrections.index') }}">Persetujuan koreksi</a>
-                    <a class="side-link {{ request()->routeIs('admin.recaps.*') ? 'active' : '' }}" href="{{ route('admin.recaps.index') }}">Rekap absensi</a>
-                    <a class="side-link {{ request()->routeIs('admin.audit-logs.*') ? 'active' : '' }}" href="{{ route('admin.audit-logs.index') }}">Audit log</a>
-                @endif
+    @php
+        $mainNav = [['dashboard','Beranda','home'],['calendar','Kalender','calendar'],['coworkers','Rekan','users'],['history','Riwayat','history'],['corrections.index','Koreksi','edit'],['leaves.index','Izin & Cuti','briefcase'],['profile','Profil','user']];
+        $adminNav = [['admin.employees.index','Karyawan','users'],['admin.attendances.index','Absensi harian','check'],['admin.schedules.edit','Jadwal kerja','calendar'],['admin.attendance-settings.edit','Validasi absensi','settings'],['admin.leaves.index','Persetujuan izin','briefcase'],['admin.corrections.index','Persetujuan koreksi','edit'],['admin.recaps.index','Rekap absensi','chart'],['admin.audit-logs.index','Audit log','audit']];
+    @endphp
+    <div class="mx-auto min-h-screen max-w-[1480px] lg:grid lg:grid-cols-[250px_1fr]">
+        <aside class="app-sidebar hidden lg:flex lg:h-screen lg:flex-col lg:overflow-y-auto">
+            <a href="{{ route('dashboard') }}" class="brand-lockup"><span class="brand-mark"><x-icon name="calendar" class="size-6" /></span><strong>Absensi Kampus</strong></a>
+            <nav class="space-y-1.5">
+                @foreach($mainNav as [$route,$label,$icon])<a class="side-link {{ request()->routeIs($route) ? 'active' : '' }}" href="{{ route($route) }}"><x-icon :name="$icon" /><span>{{ $label }}</span></a>@endforeach
+                @if(auth()->user()->isAdmin())<p class="nav-section">Admin</p>@foreach($adminNav as [$route,$label,$icon])<a class="side-link {{ request()->routeIs(str_replace('.index','.*',str_replace('.edit','.*',$route))) ? 'active' : '' }}" href="{{ route($route) }}"><x-icon :name="$icon" /><span>{{ $label }}</span></a>@endforeach @endif
             </nav>
-            <form method="POST" action="{{ route('logout') }}" class="mt-auto">@csrf
-                <button class="side-link w-full text-left text-rose-600">Keluar</button>
-            </form>
+            <div class="mt-auto space-y-3 pt-8">
+                <button id="theme-toggle-side" type="button" class="sidebar-utility"><x-icon name="sun" /><span>Mode tampilan</span><strong class="ml-auto dark:hidden">Terang</strong><strong class="ml-auto hidden dark:inline">Gelap</strong></button>
+                <a href="{{ route('profile') }}" class="sidebar-profile"><span>{{ strtoupper(substr(auth()->user()->name,0,1)) }}</span><div><strong>{{ explode(' ',auth()->user()->name)[0] }}</strong><small>{{ auth()->user()->position ?: ucfirst(auth()->user()->role) }}</small></div><x-icon name="chevron" class="ml-auto size-4" /></a>
+                <form method="POST" action="{{ route('logout') }}">@csrf<button class="side-link w-full text-rose-400"><x-icon name="logout" /><span>Keluar</span></button></form>
+            </div>
         </aside>
 
         <div class="min-w-0">
-            <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 px-5 py-4 backdrop-blur lg:px-10">
-                <div class="mx-auto flex max-w-4xl items-center justify-between">
+            <header class="app-header sticky top-0 z-30 px-4 py-3 sm:px-6 lg:px-8">
+                <div class="mx-auto flex max-w-6xl items-center justify-between">
                     <div>
                         <p class="text-xs font-bold uppercase tracking-wider text-emerald-700">Absensi Kampus</p>
                         <p class="text-sm text-slate-500">{{ auth()->user()->position ?: ucfirst(auth()->user()->role) }}</p>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button id="theme-toggle" type="button" class="grid size-10 place-items-center rounded-full border border-slate-200 text-lg" aria-label="Ganti tema"><span class="dark:hidden">☾</span><span class="hidden dark:inline">☀</span></button>
+                        <button id="theme-toggle" type="button" class="icon-button" aria-label="Ganti tema"><x-icon name="moon" class="dark:hidden" /><x-icon name="sun" class="hidden dark:block" /></button>
                         <button id="install-app" class="hidden rounded-xl border border-emerald-200 px-3 py-2 text-xs font-bold text-emerald-700">Pasang aplikasi</button>
-                        <a href="{{ route('profile') }}" class="grid size-10 place-items-center rounded-full bg-emerald-100 font-bold text-emerald-700">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</a>
+                        <a href="{{ route('profile') }}" class="profile-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</a>
                     </div>
                 </div>
             </header>
 
-            <main class="mx-auto max-w-4xl px-4 pb-28 pt-6 sm:px-6 lg:px-10 lg:pb-10 lg:pt-10">
+            <main class="mx-auto max-w-6xl px-4 pb-28 pt-6 sm:px-6 lg:px-8 lg:pb-12 lg:pt-8">
                 @if(session('success'))
                     <div class="mb-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">{{ session('success') }}</div>
                 @endif
@@ -72,20 +59,20 @@
         </div>
     </div>
 
-    <nav class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-2 pb-[max(.65rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur lg:hidden">
+    <nav class="mobile-nav fixed inset-x-0 bottom-0 z-40 px-2 pb-[max(.65rem,env(safe-area-inset-bottom))] pt-2 lg:hidden">
         <div class="mx-auto grid max-w-lg grid-cols-5">
             @php
                 $nav = [
-                    ['dashboard', 'Beranda', '⌂'],
-                    ['calendar', 'Kalender', '□'],
-                    ['coworkers', 'Rekan', '◇'],
-                    ['history', 'Riwayat', '◷'],
-                    ['profile', 'Profil', '○'],
+                    ['dashboard', 'Beranda', 'home'],
+                    ['calendar', 'Kalender', 'calendar'],
+                    ['coworkers', 'Rekan', 'users'],
+                    ['history', 'Riwayat', 'history'],
+                    ['profile', 'Profil', 'user'],
                 ];
             @endphp
             @foreach($nav as [$route, $label, $icon])
                 <a href="{{ route($route) }}" class="bottom-link {{ request()->routeIs($route) ? 'active' : '' }}">
-                    <span aria-hidden="true" class="text-xl leading-none">{{ $icon }}</span>
+                    <x-icon :name="$icon" class="size-5" />
                     <span>{{ $label }}</span>
                 </a>
             @endforeach

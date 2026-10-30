@@ -1,8 +1,10 @@
 import './bootstrap';
 
-document.querySelector('#theme-toggle')?.addEventListener('click', () => {
-    const dark = document.documentElement.classList.toggle('dark');
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
+document.querySelectorAll('#theme-toggle, #theme-toggle-side').forEach((button) => {
+    button.addEventListener('click', () => {
+        const dark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+    });
 });
 
 document.querySelectorAll('.attendance-form').forEach((form) => {
